@@ -1,0 +1,88 @@
+---
+title: "Untitled"
+author: "Charlie Siciliano"
+date: "2023-04-28"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+basketball_shot <- function(gofor) {
+  
+  # Simulate a pass attempt
+  pass_success <- rbinom(1, 1, 0.7) # 70% chance of success
+  
+  if (pass_success) {
+    # Simulate a shot attempt
+    if (gofor == 2) {
+      shot_success <- rbinom(1, 1, 0.5) # 50% chance of success for a two pointer
+      if (shot_success) {
+        point <- 2
+      } else {
+        foul <- rbinom(1, 1, 0.2) # 20% chance of a foul
+        if (foul) {
+          point <- 2
+        } else {
+          point <- 0
+        }
+      }
+    } else if (gofor == 3) {
+      shot_success <- rbinom(1, 1, 0.3) # 30% chance of success for a three pointer
+      if (shot_success) {
+        point <- 3
+      } else {
+        foul <- rbinom(1, 1, 0.1) # 10% chance of a foul
+        if (foul) {
+          point <- 3
+        } else {
+          point <- 0
+        }
+      }
+    } else {
+      stop("Invalid value for gofor. Must be either 2 or 3.")
+    }
+  } else {
+    point <- 0
+  }
+  
+  return(point)
+}
+```
+
+
+```{r}
+set.seed(123) # Set a seed for reproducibility
+
+# Simulate going for two
+gofor <- 2
+points <- replicate(100000, basketball_shot(gofor))
+mean_points <- mean(points)
+sd_points <- sd(points)
+cat("Mean points for going for two:", mean_points, "\n")
+cat("Standard deviation of points for going for two:", sd_points, "\n")
+
+# Simulate going for three
+gofor <- 3
+points <- replicate(100000, basketball_shot(gofor))
+mean_points <- mean(points)
+sd_points <- sd(points)
+cat("Mean points for going for three:", mean_points, "\n")
+cat("Standard deviation of points for going for three:", sd_points, "\n")
+```
+
+```{r}
+set.seed(123) # Set a seed for reproducibility
+
+# Simulate going for two
+gofor <- 2
+points <- replicate(100000, basketball_shot(gofor))
+prob_win <- mean(points == 2)
+prob_tie <- mean(points == 1)
+prob_loss <- mean(points == 0)
+cat("Probability of winning for going for two:", prob_win, "\n")
+cat("Probability of tying for going for two:", prob_t
+```
+
